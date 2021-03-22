@@ -11,7 +11,7 @@ public class ItemManager {
 
     private List<List<String>> itemLists;
     private final int NUMBER_OF_LISTS_TO_USE = 4;
-    private final int NUMBER_OF_ITEMS_PER_LIST = 4;
+    private final int NUMBER_OF_ITEMS_PER_LIST = 1;
     private List<String> workingList;
     private int currentIndex;
     private Set<String> chosenItemsSet;
@@ -31,9 +31,7 @@ public class ItemManager {
         int totalItems = NUMBER_OF_ITEMS_PER_LIST * NUMBER_OF_ITEMS_PER_LIST;
         workingList = new ArrayList<>(totalItems);
         chosenItemsSet = new HashSet<>(totalItems);
-        System.out.println("ItemManager initLists() , about to generate Working list");
         generateWorkingList();
-        System.out.println("ItemManager initLists() , generated Working list, size: "+  workingList.size());
         printWorkingList();
     }
 
