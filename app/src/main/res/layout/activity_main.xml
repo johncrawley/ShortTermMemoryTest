@@ -6,40 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/countdown_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/itemView"
-        android:text=""
-        android:textSize="@dimen/item_text_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        layout="@layout/countdown" />
 
-    <Button
-        android:id="@+id/beginTestButton"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/display_words_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_text_begin_test"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        layout="@layout/display_words" />
 
-    <EditText
-        android:id="@+id/editTextTextMultiLine"
-        android:layout_width="wrap_content"
+
+    <include
+        android:id="@+id/results_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:maxLines="16"
-        android:visibility="gone"
-        android:lines="16"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        layout="@layout/results" />
+
+
+    <include
+        android:id="@+id/start_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/start" />
+
+
+    <include
+        android:id="@+id/word_recall_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/word_recall" />
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

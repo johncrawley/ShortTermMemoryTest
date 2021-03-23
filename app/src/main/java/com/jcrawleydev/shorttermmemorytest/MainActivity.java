@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ScheduledFuture<?> nextItemFuture;
     private ScheduledExecutorService scheduledExecutorService;
 
+    private View countdownLayout, displayWordsLayout, startLayout, resultsLayout, wordRecallLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         textView = findViewById(R.id.itemView);
         beginTestButton = findViewById(R.id.beginTestButton);
+
+        countdownLayout = findViewById(R.id.countdown_layout);
+        displayWordsLayout = findViewById(R.id.display_words_layout);
+        startLayout = findViewById(R.id.start_layout);
+        resultsLayout = findViewById(R.id.results_layout);
+        wordRecallLayout = findViewById(R.id.word_recall_layout);
 
 
         beginTestButton.setOnClickListener(this);
