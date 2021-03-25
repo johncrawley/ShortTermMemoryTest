@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.jcrawleydev.shorttermmemorytest.items.ItemLoader;
 import com.jcrawleydev.shorttermmemorytest.items.ItemManager;
+import com.jcrawleydev.shorttermmemorytest.states.GameState;
 import com.jcrawleydev.shorttermmemorytest.tasks.StatusUpdate;
 import com.jcrawleydev.shorttermmemorytest.tasks.SwitchTextTask;
 
@@ -30,8 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button beginTestButton;
     private boolean isTestRunning;
     private ItemManager itemManager;
-    private ScheduledFuture<?> nextItemFuture;
-    private ScheduledExecutorService scheduledExecutorService;
+    private GameState currentState;
 
     private View countdownLayout, displayWordsLayout, startLayout, resultsLayout, wordRecallLayout;
 
@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         textView = findViewById(R.id.itemView);
         beginTestButton = findViewById(R.id.beginTestButton);
@@ -57,9 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ItemLoader itemLoader = new ItemLoader();
         itemLoader.loadItemsInto(itemManager);
         itemManager.initLists();
-
-        scheduledExecutorService = Executors.newScheduledThreadPool(2);
-        textView.setVisibility(View.GONE);
         itemManager.printWorkingList();
     }
 
@@ -78,16 +74,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(!isTestRunning){
                 System.out.println("MainActivity onClick() entered test is not running block!");
                 isTestRunning = true;
-                beginTestButton.setVisibility(View.GONE);
-                textView.setVisibility(View.VISIBLE);
+                startLayout.setVisibility(View.GONE);
+                displayWordsLayout.setVisibility(View.VISIBLE);
                 startTest();
                 itemManager.resetForNextRound();
 
                 System.out.println("MainActivity onClick() after invoking startTest()");
             }
-        }
-        else if(v.getId() == R.id.itemView){
-
         }
 
     }
@@ -108,29 +101,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void stopTask(){
-        nextItemFuture.cancel(false);
+       // nextItemFuture.cancel(false);
         System.out.println("Stopping task and setting textView visibility to gone!");
         System.out.flush();
         isTestRunning = false;
         //beginTestButton.setVisibility(View.VISIBLE);
         runOnUiThread(new Runnable(){
             public void run(){
-                findViewById(R.id.editTextTextMultiLine).setVisibility(View.VISIBLE);
+                wordRecallLayout.setVisibility(View.VISIBLE);
                 textView.setText("");
-                textView.setVisibility(View.GONE);
+                displayWordsLayout.setVisibility(View.GONE);
             }
         });
     }
 
 
+    public void switchToNextState(){
+        runOnUiThread(new Runnable(){
+            public void run(){
+                currentState.stop();
+                currentState = currentState.getNextState();
+                currentState.start();
+            }
+        });
+
+    }
+
 
     private void startTest(){
-        final int TIME_PER_WORD = 2000;
-
-        System.out.println("MainActivity onClick() entered startTest()");
-        isTestRunning = true;
-        SwitchTextTask task = new SwitchTextTask(this,this, itemManager);
-        nextItemFuture = scheduledExecutorService.scheduleWithFixedDelay(task, 100, TIME_PER_WORD, TimeUnit.MILLISECONDS);
     }
 
 
