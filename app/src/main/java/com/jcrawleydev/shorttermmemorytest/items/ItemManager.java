@@ -36,6 +36,11 @@ public class ItemManager {
     }
 
 
+    public boolean contains(String str){
+        return chosenItemsSet.contains(str);
+    }
+
+
     public String getNextItem(){
         log("Entered getNextItem()");
         if(currentIndex >= workingList.size()){

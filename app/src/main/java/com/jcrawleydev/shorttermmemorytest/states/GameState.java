@@ -4,6 +4,7 @@ public interface GameState {
 
     void start();
     void stop();
-    GameState getNextState();
-
+    void onClick(int id);
+    void onKeyboardDone(String contents);
+    int getLayoutId();
 }

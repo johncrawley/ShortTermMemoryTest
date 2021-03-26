@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Short Term Memory Test</string>
     <string name="button_text_begin_test">Begin Test</string>
+    <string name="button_done_text">Done</string>
 </resources>
