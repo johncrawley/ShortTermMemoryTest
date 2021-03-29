@@ -1,7 +1,7 @@
 package com.jcrawleydev.shorttermmemorytest.tasks;
 
 import com.jcrawleydev.shorttermmemorytest.TaskRunner;
-import com.jcrawleydev.shorttermmemorytest.TextHolder;
+import com.jcrawleydev.shorttermmemorytest.view.TextHolder;
 import com.jcrawleydev.shorttermmemorytest.items.ItemManager;
 
 
@@ -19,14 +19,10 @@ public class SwitchTextTask implements Runnable {
 
     public void run(){
         if(itemManager.hasNext()){
-            System.out.println("SwitchTextTask run() -> entered itemManager has next block");
-            System.out.flush();
-            textHolder.setText(itemManager.getNextItem());
+            textHolder.setWordText(itemManager.getNextItem());
 
         }
         else{
-            System.out.println("SwitchTextTask run() -> itemManager doesn't have any more!");
-            System.out.flush();
             taskRunner.stopTask();
         }
     }

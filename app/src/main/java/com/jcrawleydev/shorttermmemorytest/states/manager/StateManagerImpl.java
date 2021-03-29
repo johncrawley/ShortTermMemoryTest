@@ -14,6 +14,8 @@ import com.jcrawleydev.shorttermmemorytest.states.WordRecallState;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class StateManagerImpl implements StateManager {
 
@@ -24,19 +26,22 @@ public class StateManagerImpl implements StateManager {
     private ItemCollector itemCollector;
     private GameState currentState;
     private MainActivity mainActivity;
+    private ScheduledExecutorService scheduledExecutorService;
 
 
     public StateManagerImpl(MainActivity mainActivity){
 
         setupStateMap();
         setupItemStuff();
+        scheduledExecutorService = Executors.newScheduledThreadPool(2);
         this.mainActivity = mainActivity;
 
         wordRecallState = new WordRecallState(5, itemCollector);
         displayWordsState = new DisplayWordsState(itemManager, this, mainActivity);
         startState = new StartState(this);
-        countdownState = new CountdownState(this);
+        countdownState = new CountdownState(this, mainActivity);
         resultState = new ResultsState(this);
+        currentState = startState;
     }
 
 
@@ -61,6 +66,10 @@ public class StateManagerImpl implements StateManager {
         stateMap.put(State.RESULTS, resultState);
     }
 
+    @Override
+    public ScheduledExecutorService getExecutorService(){
+        return this.scheduledExecutorService;
+    }
 
 
     @Override

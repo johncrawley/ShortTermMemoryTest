@@ -15,8 +15,9 @@ import android.widget.TextView;
 import com.jcrawleydev.shorttermmemorytest.states.GameState;
 import com.jcrawleydev.shorttermmemorytest.states.manager.StateManager;
 import com.jcrawleydev.shorttermmemorytest.states.manager.StateManagerImpl;
+import com.jcrawleydev.shorttermmemorytest.view.TextHolder;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener, TextHolder{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener, TextHolder {
 
 
     private TextView itemTextView;
@@ -58,20 +59,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         stateManager.onClick(v.getId());
     }
 
+
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
         return false;
     }
 
+
     @Override
-    public void setText(final String text){
+    public void setWordText(final String text){
         runOnUiThread(new Runnable(){
             public void run(){
                 itemTextView.setText(text);
             }
         });
-        System.out.println("Entered setText()");
-        System.out.flush();
+    }
+
+
+    @Override
+    public void setCountdownText(final String value){
+        runOnUiThread(new Runnable(){
+            public void run(){
+                TextView textView = findViewById(R.id.countdownText);
+                textView.setText(value);
+            }
+        });
     }
 
 

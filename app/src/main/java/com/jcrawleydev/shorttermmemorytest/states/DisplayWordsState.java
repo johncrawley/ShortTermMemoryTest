@@ -2,7 +2,7 @@ package com.jcrawleydev.shorttermmemorytest.states;
 
 import com.jcrawleydev.shorttermmemorytest.R;
 import com.jcrawleydev.shorttermmemorytest.TaskRunner;
-import com.jcrawleydev.shorttermmemorytest.TextHolder;
+import com.jcrawleydev.shorttermmemorytest.view.TextHolder;
 import com.jcrawleydev.shorttermmemorytest.items.ItemManager;
 import com.jcrawleydev.shorttermmemorytest.states.manager.State;
 import com.jcrawleydev.shorttermmemorytest.states.manager.StateManager;
@@ -26,7 +26,7 @@ public class DisplayWordsState extends AbstractGameState implements GameState, T
         this.stateManager = stateManager;
         this.layoutId = R.id.display_words_layout;
         this.textHolder = textHolder;
-        scheduledExecutorService = Executors.newScheduledThreadPool(2);
+        scheduledExecutorService = stateManager.getExecutorService();
     }
 
 
