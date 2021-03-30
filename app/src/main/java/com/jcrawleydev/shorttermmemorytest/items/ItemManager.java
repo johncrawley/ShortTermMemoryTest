@@ -32,6 +32,7 @@ public class ItemManager {
         workingList = new ArrayList<>(totalItems);
         chosenItemsSet = new HashSet<>(totalItems);
         generateWorkingList();
+        resetForNextRound();
         printWorkingList();
     }
 
@@ -42,17 +43,16 @@ public class ItemManager {
 
 
     public String getNextItem(){
-        log("Entered getNextItem()");
-        if(currentIndex >= workingList.size()){
-            log("getNextItem() currentIndex: " + currentIndex + " workList size: " + workingList.size());
-            System.out.flush();
-            currentIndex = 0;
-        }
-        String text = workingList.get(currentIndex);
-        log("new string: " + text);
         currentIndex++;
+        String text = workingList.get(currentIndex);
         return text;
     }
+
+
+    public boolean hasNext(){
+        return currentIndex < workingList.size()-1;
+    }
+
 
     private void log(String msg){
         System.out.println("ItemManager "+ msg);
@@ -69,14 +69,9 @@ public class ItemManager {
         System.out.println("working list: " + str.toString());
     }
 
-    public boolean hasNext(){
-        System.out.println("ItemManager hasNext() currentIndex: " + currentIndex + " workingList size: " + workingList.size());
-        System.out.flush();
-        return currentIndex < workingList.size();
-    }
 
     public void resetForNextRound() {
-        currentIndex = 0;
+        currentIndex = -1;
     }
 
 

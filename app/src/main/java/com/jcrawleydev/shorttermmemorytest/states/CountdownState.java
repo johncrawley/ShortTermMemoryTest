@@ -1,6 +1,7 @@
 package com.jcrawleydev.shorttermmemorytest.states;
 
-import com.jcrawleydev.shorttermmemorytest.states.manager.State;
+import com.jcrawleydev.shorttermmemorytest.R;
+import com.jcrawleydev.shorttermmemorytest.states.manager.StateName;
 import com.jcrawleydev.shorttermmemorytest.states.manager.StateManager;
 import com.jcrawleydev.shorttermmemorytest.tasks.CountdownTask;
 import com.jcrawleydev.shorttermmemorytest.view.TextHolder;
@@ -17,15 +18,20 @@ public class CountdownState extends AbstractGameState implements GameState {
     private ScheduledFuture<?> future;
     private ScheduledExecutorService scheduledExecutorService;
     private TextHolder textHolder;
+    private boolean wasStopCalled;
 
     public CountdownState(StateManager stateManager, TextHolder textHolder){
+        this.layoutId = R.id.countdown_layout;
+        this.name = StateName.COUNTDOWN;
         this.stateManager = stateManager;
         this.scheduledExecutorService = stateManager.getExecutorService();
         this.textHolder = textHolder;
+
     }
 
     @Override
     public void start() {
+        wasStopCalled = false;
         currentNumber = INITIAL_NUMBER;
         CountdownTask task = new CountdownTask(textHolder, this);
         future = scheduledExecutorService.scheduleWithFixedDelay(task, 0,  1000, TimeUnit.MILLISECONDS);
@@ -34,8 +40,12 @@ public class CountdownState extends AbstractGameState implements GameState {
 
     @Override
     public void stop() {
+        if(wasStopCalled){
+            return;
+        }
+        wasStopCalled = true;
         future.cancel(false);
-        stateManager.switchTo(State.DISPLAY_WORDS);
+        stateManager.switchTo(StateName.DISPLAY_WORDS);
     }
 
 
@@ -48,7 +58,7 @@ public class CountdownState extends AbstractGameState implements GameState {
     public int getAndDecCurrentNumber(){
         int retVal = currentNumber;
         currentNumber--;
-        if(currentNumber < 1){
+        if(currentNumber < 0){
             stop();
         }
         return retVal;

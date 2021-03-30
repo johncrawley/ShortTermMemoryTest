@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView itemTextView;
     private StateManager stateManager;
-
+    private EditText wordInputEditText;
 
 
     @Override
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button beginTestButton = findViewById(R.id.beginTestButton);
         Button doneButton = findViewById(R.id.doneButton);
         itemTextView = findViewById(R.id.itemView);
-        EditText wordInputEditText = findViewById(R.id.editTextTextMultiLine);
+        wordInputEditText = findViewById(R.id.editTextTextMultiLine);
 
         beginTestButton.setOnClickListener(this);
         doneButton.setOnClickListener(this);
@@ -70,7 +70,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setWordText(final String text){
         runOnUiThread(new Runnable(){
             public void run(){
+                log("Setting text: " + text);
                 itemTextView.setText(text);
+            }
+        });
+    }
+
+    @Override
+    public void clearRecallText(){
+        runOnUiThread(new Runnable(){
+            public void run(){
+               wordInputEditText.setText("");
             }
         });
     }
@@ -129,10 +139,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     private void setVisibilityOnCurrentLayout(GameState currentState, int visibility){
+        log("entered setVisibilityOnCurrentLayout()");
+        log("currentState: " + currentState.getName().toString());
+        log("currentLayoutId: " + currentState.getLayoutId());
         findViewById(currentState.getLayoutId()).setVisibility(visibility);;
     }
 
+    private void log(String msg){
+        System.out.println("MainActivity: " + msg);
+    }
 
 }

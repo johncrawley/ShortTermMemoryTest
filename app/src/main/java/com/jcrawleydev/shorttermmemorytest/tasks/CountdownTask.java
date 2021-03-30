@@ -1,7 +1,6 @@
 package com.jcrawleydev.shorttermmemorytest.tasks;
 
-import com.jcrawleydev.shorttermmemorytest.TaskRunner;
-import com.jcrawleydev.shorttermmemorytest.items.ItemManager;
+
 import com.jcrawleydev.shorttermmemorytest.states.CountdownState;
 import com.jcrawleydev.shorttermmemorytest.view.TextHolder;
 

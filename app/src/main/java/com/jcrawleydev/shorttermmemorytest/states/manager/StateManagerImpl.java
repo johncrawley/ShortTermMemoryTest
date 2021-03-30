@@ -21,7 +21,7 @@ public class StateManagerImpl implements StateManager {
 
     private GameState startState, displayWordsState, wordRecallState, countdownState, resultState;
     private Results results;
-    private Map<State, GameState> stateMap;
+    private Map<StateName, GameState> stateMap;
     private ItemManager itemManager;
     private ItemCollector itemCollector;
     private GameState currentState;
@@ -31,17 +31,18 @@ public class StateManagerImpl implements StateManager {
 
     public StateManagerImpl(MainActivity mainActivity){
 
-        setupStateMap();
         setupItemStuff();
         scheduledExecutorService = Executors.newScheduledThreadPool(2);
         this.mainActivity = mainActivity;
 
-        wordRecallState = new WordRecallState(5, itemCollector);
+        wordRecallState = new WordRecallState(5, itemCollector, this, mainActivity);
         displayWordsState = new DisplayWordsState(itemManager, this, mainActivity);
         startState = new StartState(this);
         countdownState = new CountdownState(this, mainActivity);
         resultState = new ResultsState(this);
         currentState = startState;
+
+        setupStateMap();
     }
 
 
@@ -59,11 +60,11 @@ public class StateManagerImpl implements StateManager {
     private void setupStateMap(){
 
         stateMap = new HashMap<>();
-        stateMap.put(State.START, startState);
-        stateMap.put(State.DISPLAY_WORDS, displayWordsState);
-        stateMap.put(State.RECALL_WORDS, wordRecallState);
-        stateMap.put(State.COUNTDOWN, countdownState);
-        stateMap.put(State.RESULTS, resultState);
+        stateMap.put(StateName.START, startState);
+        stateMap.put(StateName.DISPLAY_WORDS, displayWordsState);
+        stateMap.put(StateName.RECALL_WORDS, wordRecallState);
+        stateMap.put(StateName.COUNTDOWN, countdownState);
+        stateMap.put(StateName.RESULTS, resultState);
     }
 
     @Override
@@ -84,9 +85,19 @@ public class StateManagerImpl implements StateManager {
 
 
     @Override
-    public void switchTo(State state) {
+    public void switchTo(StateName stateName) {
+        log("entering switchTo() with stateName: " + stateName.toString());
         mainActivity.stopTask(currentState);
-        currentState = stateMap.get(state);
+        currentState = stateMap.get(stateName);
+        if(currentState == null){
+            log("switchTo() current state is null");
+            return;
+        }
         mainActivity.startTask(currentState);
+   }
+
+
+   private void log(String msg){
+        System.out.println("StateMngrImpl: " + msg);
    }
 }

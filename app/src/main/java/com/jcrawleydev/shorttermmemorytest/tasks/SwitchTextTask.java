@@ -10,19 +10,21 @@ public class SwitchTextTask implements Runnable {
     private TextHolder textHolder;
     private ItemManager itemManager;
     private TaskRunner taskRunner;
+    private int round;
 
-    public SwitchTextTask(TaskRunner taskRunner, TextHolder textHolder, ItemManager itemManager){
+    public SwitchTextTask(TaskRunner taskRunner, TextHolder textHolder, ItemManager itemManager, int round){
         this.textHolder = textHolder;
         this.itemManager = itemManager;
         this.taskRunner = taskRunner;
+        this.round = round;
     }
 
     public void run(){
         if(itemManager.hasNext()){
-            textHolder.setWordText(itemManager.getNextItem());
-
+            textHolder.setWordText(itemManager.getNextItem() + " " + round);
         }
         else{
+            textHolder.setWordText("");
             taskRunner.stopTask();
         }
     }
