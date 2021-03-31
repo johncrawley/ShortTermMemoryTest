@@ -21,7 +21,7 @@ public class SwitchTextTask implements Runnable {
 
     public void run(){
         if(itemManager.hasNext()){
-            textHolder.setWordText(itemManager.getNextItem() + " " + round);
+            textHolder.setWordText(itemManager.getNextItem());
         }
         else{
             textHolder.setWordText("");

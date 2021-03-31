@@ -6,6 +6,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -23,7 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView itemTextView;
     private StateManager stateManager;
     private EditText wordInputEditText;
-
+    final Animation fadeInAnimation = new AlphaAnimation(0.0f, 1.0f);
+    final Animation fadeOutAnimation = new AlphaAnimation(1.0f, 0.0f);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,24 +41,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         itemTextView = findViewById(R.id.itemView);
         wordInputEditText = findViewById(R.id.editTextTextMultiLine);
 
+
         beginTestButton.setOnClickListener(this);
         doneButton.setOnClickListener(this);
         itemTextView.setOnKeyListener(this);
 
         stateManager = new StateManagerImpl(this);
         setupKeyAction(wordInputEditText, MainActivity.this);
-
-
-
+        setupAnimations();
     }
 
-    /*
-        TODO
-        - switch to text area after a round of words
-        - fade words in and out
-        - 5 second counter before next round
-        - results of all rounds at the end, play again button
-     */
+
+    private void setupAnimations(){
+        fadeOutAnimation.setDuration(700);
+        fadeInAnimation.setDuration(400);
+        fadeOutAnimation.setStartOffset(2000);
+
+        fadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                itemTextView.startAnimation(fadeOutAnimation);
+            }
+            @Override public void onAnimationStart(Animation animation){/*do nothing */}
+            @Override public void onAnimationRepeat(Animation animation) { /* do nothing */}
+        });
+
+
+        fadeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                itemTextView.setText("");
+            }
+            @Override public void onAnimationStart(Animation animation){/*do nothing */}
+            @Override public void onAnimationRepeat(Animation animation) { /* do nothing */}
+        });
+    }
+
 
     @Override
     public void onClick(View v){
@@ -66,15 +92,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+
+
     @Override
     public void setWordText(final String text){
         runOnUiThread(new Runnable(){
             public void run(){
-                log("Setting text: " + text);
                 itemTextView.setText(text);
+                itemTextView.startAnimation(fadeInAnimation);
             }
         });
     }
+
 
     @Override
     public void clearRecallText(){
@@ -140,14 +169,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void setVisibilityOnCurrentLayout(GameState currentState, int visibility){
-        log("entered setVisibilityOnCurrentLayout()");
-        log("currentState: " + currentState.getName().toString());
-        log("currentLayoutId: " + currentState.getLayoutId());
         findViewById(currentState.getLayoutId()).setVisibility(visibility);;
     }
 
     private void log(String msg){
         System.out.println("MainActivity: " + msg);
+        System.out.flush();
     }
 
 }

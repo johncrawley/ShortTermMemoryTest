@@ -36,7 +36,7 @@ public class DisplayWordsState extends AbstractGameState implements GameState, T
     public void start(){
         round++;
         wasStopCalled = false;
-        final int TIME_PER_WORD = 2000;
+        final int TIME_PER_WORD = 4000;
         itemManager.resetForNextRound();
         SwitchTextTask task = new SwitchTextTask(this, textHolder, itemManager, round);
         nextItemFuture = scheduledExecutorService.scheduleWithFixedDelay(task, 100, TIME_PER_WORD, TimeUnit.MILLISECONDS);
