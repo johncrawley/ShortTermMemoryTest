@@ -3,4 +3,8 @@
     <string name="button_text_begin_test">Begin Test</string>
     <string name="button_done_text">Done</string>
     <string name="text_initial_countdown">3</string>
+    <string name="text_results_heading">Results</string>
+    <string name="text_correct_items_label">Correct Items:</string>
+    <string name="text_incorrect_items_label">Incorrect Items:</string>
+    <string name="text_missing_items_label">Missing Items:</string>
 </resources>

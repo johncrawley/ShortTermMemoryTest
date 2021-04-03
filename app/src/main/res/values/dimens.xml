@@ -2,5 +2,10 @@
 <resources>
 
     <dimen name="item_text_size">42sp</dimen>
+    <dimen name="countdown_text_size">48sp</dimen>
+    <dimen name="results_heading_text_size">42sp</dimen>
+    <dimen name="divider_padding">16dp</dimen>
+    <dimen name="results_padding">16dp</dimen>
+    <dimen name="results_label_text_size">24dp</dimen>
 
 </resources>

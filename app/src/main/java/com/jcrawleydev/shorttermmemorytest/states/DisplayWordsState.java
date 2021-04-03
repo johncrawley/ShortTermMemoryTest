@@ -60,15 +60,9 @@ public class DisplayWordsState extends AbstractGameState implements GameState, T
             return;
         }
         nextItemFuture.cancel(false);
-        log("stop() nextItemFutureCancelled!");
         stateManager.switchTo(StateName.RECALL_WORDS);
         wasStopCalled = true;
     }
-
-    private void log(String msg){
-        System.out.println("DisplayWordsState: " + msg);
-    }
-
 
 
 }
