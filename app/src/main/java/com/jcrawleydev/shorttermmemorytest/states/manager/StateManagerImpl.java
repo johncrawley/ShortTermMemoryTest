@@ -48,7 +48,7 @@ public class StateManagerImpl implements StateManager {
 
     private void setupItemStuff(){
         itemManager = new ItemManager();
-        results = new Results();
+        results = new Results(3);
         itemCollector = new ItemCollector(itemManager, results);
         ItemLoader itemLoader = new ItemLoader();
         itemLoader.loadItemsInto(itemManager);
