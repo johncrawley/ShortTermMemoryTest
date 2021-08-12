@@ -17,38 +17,31 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class StateManagerImpl implements StateManager {
 
-    private GameState startState, displayWordsState, wordRecallState, countdownState, resultState;
-    private Results results;
+
     private Map<StateName, GameState> stateMap;
     private ItemManager itemManager;
     private ItemCollector itemCollector;
     private GameState currentState;
-    private MainActivity mainActivity;
-    private ScheduledExecutorService scheduledExecutorService;
+    private final MainActivity mainActivity;
+    private final ScheduledExecutorService scheduledExecutorService;
 
 
     public StateManagerImpl(MainActivity mainActivity){
-
         setupItemStuff();
         scheduledExecutorService = Executors.newScheduledThreadPool(2);
         this.mainActivity = mainActivity;
-
-        wordRecallState = new WordRecallState(5, itemCollector, this, mainActivity);
-        displayWordsState = new DisplayWordsState(itemManager, this, mainActivity);
-        startState = new StartState(this);
-        countdownState = new CountdownState(this, mainActivity);
-        resultState = new ResultsState(this);
-        currentState = startState;
-
         setupStateMap();
     }
 
 
     private void setupItemStuff(){
         itemManager = new ItemManager();
-        results = new Results(3);
+        Results results = new Results(3);
         itemCollector = new ItemCollector(itemManager, results);
         ItemLoader itemLoader = new ItemLoader();
         itemLoader.loadItemsInto(itemManager);
@@ -58,14 +51,26 @@ public class StateManagerImpl implements StateManager {
 
 
     private void setupStateMap(){
-
         stateMap = new HashMap<>();
-        stateMap.put(StateName.START, startState);
-        stateMap.put(StateName.DISPLAY_WORDS, displayWordsState);
-        stateMap.put(StateName.RECALL_WORDS, wordRecallState);
-        stateMap.put(StateName.COUNTDOWN, countdownState);
-        stateMap.put(StateName.RESULTS, resultState);
+        stateMap.put(StateName.START, new StartState(this));
+        stateMap.put(StateName.DISPLAY_WORDS, new DisplayWordsState(itemManager, this, mainActivity));
+        stateMap.put(StateName.RECALL_WORDS,  new WordRecallState(5, itemCollector, this, mainActivity));
+        stateMap.put(StateName.COUNTDOWN, new CountdownState(this, mainActivity));
+        stateMap.put(StateName.RESULTS, new ResultsState(this));
+        initViews();
     }
+
+    private void initViews(){
+        for(GameState gameState : stateMap.values()){
+            mainActivity.setVisibilityOnCurrentLayout(gameState, GONE);
+        }
+        currentState = stateMap.get(StateName.START);
+        if(currentState == null){
+            return;
+        }
+        mainActivity.setVisibilityOnCurrentLayout(currentState, VISIBLE);
+    }
+
 
     @Override
     public ScheduledExecutorService getExecutorService(){
@@ -77,6 +82,7 @@ public class StateManagerImpl implements StateManager {
     public void onClick(int viewId){
         currentState.onClick(viewId);
     }
+
 
     @Override
     public void onKeyboardDone(String contents){

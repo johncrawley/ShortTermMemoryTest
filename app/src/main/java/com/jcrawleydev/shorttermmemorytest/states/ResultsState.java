@@ -7,13 +7,12 @@ import com.jcrawleydev.shorttermmemorytest.states.manager.StateName;
 public class ResultsState extends AbstractGameState implements GameState{
 
     public ResultsState(StateManager stateManager){
-        this.stateManager = stateManager;
+        super(stateManager, StateName.RESULTS, R.id.results_layout);
     }
+
 
     @Override
     public void start() {
-        this.layoutId = R.id.results_layout;
-        this.name = StateName.RESULTS;
     }
 
     @Override

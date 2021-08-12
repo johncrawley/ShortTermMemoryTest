@@ -1,7 +1,5 @@
 package com.jcrawleydev.shorttermmemorytest.states;
 
-import android.view.View;
-
 import com.jcrawleydev.shorttermmemorytest.states.manager.StateManager;
 import com.jcrawleydev.shorttermmemorytest.states.manager.StateName;
 
@@ -9,7 +7,13 @@ public abstract class AbstractGameState implements GameState {
 
     protected int layoutId;
     protected StateManager stateManager;
-    protected StateName name;
+    protected StateName stateName;
+
+    public AbstractGameState(StateManager stateManager, StateName stateName, int layoutId){
+        this.stateManager = stateManager;
+        this.stateName = stateName;
+        this.layoutId = layoutId;
+    }
 
     @Override
     public  int getLayoutId(){
@@ -22,8 +26,8 @@ public abstract class AbstractGameState implements GameState {
     }
 
     @Override
-    public StateName getName(){
-        return name;
+    public StateName getStateName(){
+        return stateName;
     }
 
 }

@@ -15,18 +15,16 @@ import java.util.concurrent.TimeUnit;
 public class DisplayWordsState extends AbstractGameState implements GameState, TaskRunner {
 
     private ScheduledFuture<?> nextItemFuture;
-    private ScheduledExecutorService scheduledExecutorService;
-    private ItemManager itemManager;
-    private TextHolder textHolder;
+    private final ScheduledExecutorService scheduledExecutorService;
+    private final ItemManager itemManager;
+    private final TextHolder textHolder;
     private boolean wasStopCalled;
     private int round;
 
 
     public DisplayWordsState(ItemManager itemManager, StateManager stateManager, TextHolder textHolder){
+        super(stateManager, StateName.DISPLAY_WORDS, R.id.display_words_layout);
         this.itemManager = itemManager;
-        this.stateManager = stateManager;
-        this.layoutId = R.id.display_words_layout;
-        this.name = StateName.DISPLAY_WORDS;
         this.textHolder = textHolder;
         scheduledExecutorService = stateManager.getExecutorService();
     }

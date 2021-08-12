@@ -6,16 +6,13 @@ import com.jcrawleydev.shorttermmemorytest.states.manager.StateManager;
 
 public class StartState extends AbstractGameState implements GameState {
 
-    private int startButtonId;
+    private final int startButtonId;
     private boolean isRunning = false;
-    private StateManager stateManager;
 
 
     public StartState(StateManager stateManager){
-        this.layoutId = R.id.start_layout;
-        this.name = StateName.START;
+        super(stateManager, StateName.START, R.id.start_layout);
         this.startButtonId = R.id.beginTestButton;
-        this.stateManager = stateManager;
     }
 
 
@@ -23,6 +20,7 @@ public class StartState extends AbstractGameState implements GameState {
     public void start(){
         isRunning = false;
     }
+
 
     @Override
     public void stop() {

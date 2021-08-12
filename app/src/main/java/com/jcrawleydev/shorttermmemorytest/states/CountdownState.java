@@ -12,25 +12,23 @@ import java.util.concurrent.TimeUnit;
 
 public class CountdownState extends AbstractGameState implements GameState {
 
-    private StateManager stateManager;
     private int currentNumber;
-    private final int INITIAL_NUMBER = 3;
     private ScheduledFuture<?> future;
-    private ScheduledExecutorService scheduledExecutorService;
-    private TextHolder textHolder;
+    private final ScheduledExecutorService scheduledExecutorService;
+    private final TextHolder textHolder;
     private boolean wasStopCalled;
 
+
     public CountdownState(StateManager stateManager, TextHolder textHolder){
-        this.layoutId = R.id.countdown_layout;
-        this.name = StateName.COUNTDOWN;
-        this.stateManager = stateManager;
+        super(stateManager, StateName.COUNTDOWN, R.id.countdown_layout);
         this.scheduledExecutorService = stateManager.getExecutorService();
         this.textHolder = textHolder;
-
     }
+
 
     @Override
     public void start() {
+        final int INITIAL_NUMBER = 3;
         wasStopCalled = false;
         currentNumber = INITIAL_NUMBER;
         CountdownTask task = new CountdownTask(textHolder, this);

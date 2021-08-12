@@ -6,11 +6,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -92,85 +89,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
     @Override
     public void setWordText(final String text){
-        runOnUiThread(new Runnable(){
-            public void run(){
-                itemTextView.setText(text);
-                itemTextView.startAnimation(fadeInAnimation);
-            }
+        runOnUiThread(() -> {
+            itemTextView.setText(text);
+            itemTextView.startAnimation(fadeInAnimation);
         });
     }
 
 
     @Override
     public void clearRecallText(){
-        runOnUiThread(new Runnable(){
-            public void run(){
-               wordInputEditText.setText("");
-            }
-        });
+        runOnUiThread(() -> wordInputEditText.setText(""));
     }
 
 
     @Override
     public void setCountdownText(final String value){
-        runOnUiThread(new Runnable(){
-            public void run(){
+        runOnUiThread(() -> {
                 TextView textView = findViewById(R.id.countdownText);
                 textView.setText(value);
-            }
-        });
+            });
     }
 
 
     private void setupKeyAction(final EditText editText, final Context context){
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if(imm == null){
-                        return false;
-                    }
-                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                    String contents = editText.getText().toString();
-                    stateManager.onKeyboardDone(contents);
-                    return true;
+        editText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(imm == null){
+                    return false;
                 }
-                return false;
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                String contents = editText.getText().toString();
+                stateManager.onKeyboardDone(contents);
+                return true;
             }
+            return false;
         });
     }
 
 
-
     public void stopTask(final GameState currentState){
-        runOnUiThread(new Runnable(){
-            public void run(){
-                currentState.stop();
-                setVisibilityOnCurrentLayout(currentState, View.GONE);
-            }
+        runOnUiThread(() -> {
+            currentState.stop();
+            setVisibilityOnCurrentLayout(currentState, View.GONE);
         });
     }
 
 
     public void startTask(final GameState currentState){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                currentState.start();
-                setVisibilityOnCurrentLayout(currentState, View.VISIBLE);
-            }
+        runOnUiThread(() -> {
+            currentState.start();
+            setVisibilityOnCurrentLayout(currentState, View.VISIBLE);
         });
     }
 
 
-    private void setVisibilityOnCurrentLayout(GameState currentState, int visibility){
-        findViewById(currentState.getLayoutId()).setVisibility(visibility);;
+    public void setVisibilityOnCurrentLayout(GameState currentState, int visibility){
+        findViewById(currentState.getLayoutId()).setVisibility(visibility);
     }
+
 
     private void log(String msg){
         System.out.println("MainActivity: " + msg);

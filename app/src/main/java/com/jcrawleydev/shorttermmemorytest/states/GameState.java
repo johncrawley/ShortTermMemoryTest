@@ -9,5 +9,5 @@ public interface GameState {
     void onClick(int id);
     void onKeyboardDone(String contents);
     int getLayoutId();
-    StateName getName();
+    StateName getStateName();
 }

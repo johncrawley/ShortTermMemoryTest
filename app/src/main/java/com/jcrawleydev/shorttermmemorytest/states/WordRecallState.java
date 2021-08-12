@@ -1,7 +1,5 @@
 package com.jcrawleydev.shorttermmemorytest.states;
 
-import android.widget.TextView;
-
 import com.jcrawleydev.shorttermmemorytest.R;
 import com.jcrawleydev.shorttermmemorytest.items.ItemCollector;
 import com.jcrawleydev.shorttermmemorytest.states.manager.StateManager;
@@ -11,15 +9,14 @@ import com.jcrawleydev.shorttermmemorytest.view.TextHolder;
 public class WordRecallState extends AbstractGameState implements GameState {
 
     private int currentIteration;
-    private int maxIterations;
+    private final int maxIterations;
     private ItemCollector itemCollector;
-    private int doneButtonId;
+    private final int doneButtonId;
     private boolean wasStopCalled;
-    private TextHolder textHolder;
+    private final TextHolder textHolder;
 
     public WordRecallState(int maxIterations, ItemCollector itemCollector, StateManager stateManager, TextHolder textHolder){
-        this.layoutId = R.id.word_recall_layout;
-        this.name = StateName.RECALL_WORDS;
+        super(stateManager, StateName.RECALL_WORDS, R.id.word_recall_layout);
         this.doneButtonId = R.id.doneButton;
         this.maxIterations = maxIterations;
         this.itemCollector = itemCollector;
