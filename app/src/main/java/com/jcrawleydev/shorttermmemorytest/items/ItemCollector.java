@@ -5,8 +5,9 @@ import java.util.List;
 
 public class ItemCollector {
 
-    private ItemManager itemManager;
-    private Results results;
+    private final ItemManager itemManager;
+    private final Results results;
+
 
     public ItemCollector(ItemManager itemManager, Results results){
         this.itemManager = itemManager;

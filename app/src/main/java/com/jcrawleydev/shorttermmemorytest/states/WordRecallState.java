@@ -10,7 +10,7 @@ public class WordRecallState extends AbstractGameState implements GameState {
 
     private int currentIteration;
     private final int maxIterations;
-    private ItemCollector itemCollector;
+    private final ItemCollector itemCollector;
     private final int doneButtonId;
     private boolean wasStopCalled;
     private final TextHolder textHolder;
