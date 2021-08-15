@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -14,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jcrawleydev.shorttermmemorytest.animation.AnimationSetup;
 import com.jcrawleydev.shorttermmemorytest.states.GameState;
 import com.jcrawleydev.shorttermmemorytest.states.manager.StateManager;
 import com.jcrawleydev.shorttermmemorytest.states.manager.StateManagerImpl;
@@ -25,8 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView itemTextView;
     private StateManager stateManager;
     private EditText wordInputEditText;
-    final Animation fadeInAnimation = new AlphaAnimation(0.0f, 1.0f);
-    final Animation fadeOutAnimation = new AlphaAnimation(1.0f, 0.0f);
+    private Animation fadeInAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,35 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         stateManager = new StateManagerImpl(this);
         setupKeyAction(wordInputEditText, MainActivity.this);
-        setupAnimations();
-    }
-
-
-    private void setupAnimations(){
-        fadeOutAnimation.setDuration(700);
-        fadeInAnimation.setDuration(400);
-        fadeOutAnimation.setStartOffset(2000);
-
-        fadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                itemTextView.startAnimation(fadeOutAnimation);
-            }
-            @Override public void onAnimationStart(Animation animation){/*do nothing */}
-            @Override public void onAnimationRepeat(Animation animation) { /* do nothing */}
-        });
-
-
-        fadeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                itemTextView.setText("");
-            }
-            @Override public void onAnimationStart(Animation animation){/*do nothing */}
-            @Override public void onAnimationRepeat(Animation animation) { /* do nothing */}
-        });
+        AnimationSetup animationSetup = new AnimationSetup(itemTextView);
+        fadeInAnimation = animationSetup.getFadeInAnimation();
     }
 
 

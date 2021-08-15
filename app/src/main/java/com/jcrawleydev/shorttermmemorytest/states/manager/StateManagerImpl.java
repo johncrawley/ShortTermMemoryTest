@@ -24,7 +24,7 @@ import static android.view.View.VISIBLE;
 public class StateManagerImpl implements StateManager {
 
 
-    private final int NUMBER_OF_ROUNDS = 3;
+    private final int NUMBER_OF_ROUNDS = 1;
 
     private Map<StateName, GameState> stateMap;
     private ItemManager itemManager;
@@ -32,7 +32,7 @@ public class StateManagerImpl implements StateManager {
     private GameState currentState;
     private final MainActivity mainActivity;
     private final ScheduledExecutorService scheduledExecutorService;
-    private WordsList wordsList;
+    private final WordsList wordsList;
 
 
     public StateManagerImpl(MainActivity mainActivity){
@@ -40,7 +40,7 @@ public class StateManagerImpl implements StateManager {
         scheduledExecutorService = Executors.newScheduledThreadPool(2);
         this.mainActivity = mainActivity;
         setupStateMap();
-        wordsList = new WordsList(5);
+        wordsList = new WordsList(3);
     }
 
 

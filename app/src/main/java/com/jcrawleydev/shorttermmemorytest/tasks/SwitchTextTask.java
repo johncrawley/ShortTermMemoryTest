@@ -7,9 +7,9 @@ import com.jcrawleydev.shorttermmemorytest.items.ItemManager;
 
 public class SwitchTextTask implements Runnable {
 
-    private TextHolder textHolder;
-    private ItemManager itemManager;
-    private TaskRunner taskRunner;
+    private final TextHolder textHolder;
+    private final ItemManager itemManager;
+    private final TaskRunner taskRunner;
     private int round;
 
     public SwitchTextTask(TaskRunner taskRunner, TextHolder textHolder, ItemManager itemManager, int round){

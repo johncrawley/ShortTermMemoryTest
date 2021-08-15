@@ -9,7 +9,7 @@ import com.jcrawleydev.shorttermmemorytest.view.TextHolder;
 public class WordRecallState extends AbstractGameState implements GameState {
 
     private int currentIteration;
-    private final int maxIterations;
+    private final int MAX_ITERATIONS;
     private final ItemCollector itemCollector;
     private final int doneButtonId;
     private boolean wasStopCalled;
@@ -18,7 +18,7 @@ public class WordRecallState extends AbstractGameState implements GameState {
     public WordRecallState(int maxIterations, ItemCollector itemCollector, StateManager stateManager, TextHolder textHolder){
         super(stateManager, StateName.RECALL_WORDS, R.id.word_recall_layout);
         this.doneButtonId = R.id.doneButton;
-        this.maxIterations = maxIterations;
+        this.MAX_ITERATIONS = maxIterations;
         this.itemCollector = itemCollector;
         this.stateManager = stateManager;
         this.textHolder = textHolder;
@@ -39,8 +39,9 @@ public class WordRecallState extends AbstractGameState implements GameState {
         }
 
         wasStopCalled = true;
-        if(currentIteration == maxIterations){
+        if(currentIteration == MAX_ITERATIONS){
             stateManager.switchTo(StateName.RESULTS);
+            return;
         }
         textHolder.clearRecallText();
         stateManager.switchTo(StateName.COUNTDOWN);
